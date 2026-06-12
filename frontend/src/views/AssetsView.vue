@@ -78,7 +78,7 @@ const vulnCount = (id) => vulns.forAsset(id).length;
       <button class="btn btn-primary" @click="openCreate">+ Ajouter un actif</button>
     </div>
 
-    <div class="panel" v-if="assets.total">
+    <div class="panel" v-if="assets.total" v-reveal>
       <table>
         <thead>
           <tr>

@@ -39,7 +39,7 @@ function exportPdf() {
       </div>
     </div>
 
-    <div v-if="report" class="report panel">
+    <div v-if="report" class="report panel" v-reveal>
       <!-- En-tête -->
       <header class="rep-head">
         <div>

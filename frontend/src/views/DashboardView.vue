@@ -40,7 +40,7 @@ const recommendations = computed(() => risk.result?.recommendations ?? []);
     </div>
 
     <!-- Statistiques clés -->
-    <div class="grid grid-4">
+    <div class="grid grid-4" v-reveal>
       <StatCard label="Actifs" :value="assets.total" hint="dont exposés" :accent="'var(--accent)'" />
       <StatCard label="Actifs exposés" :value="assets.exposedCount" hint="sur Internet" :accent="'var(--risk-mid)'" />
       <StatCard label="Vulnérabilités" :value="vulns.total" hint="toutes criticités" :accent="'var(--risk-high)'" />
@@ -53,7 +53,7 @@ const recommendations = computed(() => risk.result?.recommendations ?? []);
     </div>
 
     <!-- Jauge + composantes -->
-    <div class="grid grid-2 mt-2">
+    <div class="grid grid-2 mt-2" v-reveal>
       <div class="panel gauge-panel">
         <div class="panel-title">Score de risque global</div>
         <RiskGauge :score="risk.score ?? 0" :level="risk.level ?? 'faible'" :size="240" />
@@ -92,7 +92,7 @@ const recommendations = computed(() => risk.result?.recommendations ?? []);
     </div>
 
     <!-- Graphiques -->
-    <div class="grid grid-2 mt-2">
+    <div class="grid grid-2 mt-2" v-reveal>
       <div class="panel">
         <div class="panel-title">Répartition des actifs par type</div>
         <DonutChart v-if="donutData.length" :labels="donutLabels" :data="donutData" />
@@ -105,7 +105,7 @@ const recommendations = computed(() => risk.result?.recommendations ?? []);
     </div>
 
     <!-- Recommandations -->
-    <div class="panel mt-2" v-if="recommendations.length">
+    <div class="panel mt-2" v-reveal v-if="recommendations.length">
       <div class="panel-title">Recommandations de sécurité</div>
       <ul class="recos">
         <li v-for="(r, i) in recommendations" :key="i">

@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import AppNav from "./components/AppNav.vue";
 import ToastHost from "./components/ToastHost.vue";
+import AmbientBackground from "./components/AmbientBackground.vue";
 import { useCompanyStore } from "./stores/company";
 import { useAssetsStore } from "./stores/assets";
 import { useVulnerabilitiesStore } from "./stores/vulnerabilities";
@@ -19,11 +20,12 @@ onMounted(() => {
 </script>
 
 <template>
+  <AmbientBackground />
   <div class="shell">
     <AppNav />
     <main class="content">
       <RouterView v-slot="{ Component }">
-        <Transition name="fade" mode="out-in">
+        <Transition name="page" mode="out-in">
           <component :is="Component" />
         </Transition>
       </RouterView>
@@ -34,30 +36,15 @@ onMounted(() => {
 
 <style scoped>
 .shell {
-  display: grid;
-  grid-template-columns: 248px 1fr;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+.content { flex: 1; min-width: 0; }
 
-.content {
-  min-width: 0;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-.fade-enter-from {
-  opacity: 0;
-  transform: translateY(6px);
-}
-.fade-leave-to {
-  opacity: 0;
-}
-
-@media (max-width: 860px) {
-  .shell {
-    grid-template-columns: 1fr;
-  }
-}
+/* Transition de page fluide (fondu + léger glissement vertical) */
+.page-enter-active { transition: opacity 0.5s var(--ease), transform 0.5s var(--ease); }
+.page-leave-active { transition: opacity 0.3s var(--ease-soft), transform 0.3s var(--ease-soft); }
+.page-enter-from { opacity: 0; transform: translateY(14px); }
+.page-leave-to { opacity: 0; transform: translateY(-8px); }
 </style>

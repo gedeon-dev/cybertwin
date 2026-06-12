@@ -2,10 +2,11 @@
  * Client d'API basé sur la Fetch API (technologie imposée par le cahier
  * des charges). Centralise les appels REST vers le backend Express.
  *
- * En développement, Vite proxifie ces chemins vers http://localhost:3000.
+ * On cible le backend en absolu (127.0.0.1) pour éviter les soucis de
+ * résolution localhost IPv6/IPv4 sous Windows. CORS est activé côté serveur.
  */
 
-const BASE = ""; // chemins relatifs, proxifiés par Vite
+const BASE = "http://127.0.0.1:3000";
 
 async function request(path, options = {}) {
   const res = await fetch(BASE + path, {

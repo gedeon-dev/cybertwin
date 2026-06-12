@@ -68,7 +68,7 @@ function cancel() {
     </div>
 
     <!-- Consultation -->
-    <div v-if="!editing && company" class="grid grid-2">
+    <div v-if="!editing && company" class="grid grid-2" v-reveal>
       <div class="panel">
         <div class="panel-title">Identité</div>
         <dl class="defs">

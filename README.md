@@ -94,9 +94,10 @@ npm run dev
 
 Puis ouvrir **http://localhost:5173**.
 
-> En développement, Vite proxifie automatiquement les appels API
-> (`/company`, `/assets`, `/vulnerabilities`, `/risk`) vers le backend sur le
-> port 3000 — aucune configuration CORS supplémentaire n'est nécessaire.
+> Le frontend communique avec le backend via la **Fetch API** en appelant
+> `http://127.0.0.1:3000` ; le serveur Express ayant **CORS** activé, aucune
+> configuration supplémentaire n'est nécessaire. (Un proxy Vite est aussi
+> configuré comme solution de repli.)
 
 Pour générer le build de production du frontend :
 
@@ -155,8 +156,17 @@ Exportable en **PDF** via l'impression du navigateur.
 ### Fonctionnalités supplémentaires (bonus)
 - **Export PDF** du rapport
 - **Historique des analyses** (conservé dans le store Pinia `risk`)
-- **Dark mode** natif (thème SOC sombre)
+- **Dark mode** natif (thème premium sombre)
 - **Notifications** (toasts) sur chaque action
+
+### Direction artistique & expérience
+L'interface vise une qualité « page produit » : navigation en verre translucide
+réactive au scroll, **fond animé** représentant le réseau d'actifs (canvas, avec
+nœuds « vulnérables » pulsant en rouge), **révélations au scroll** (directive
+`v-reveal` via IntersectionObserver), **compteurs animés**, jauge de risque avec
+halo lumineux et transitions de page fluides. Typographie Inter Tight / Inter /
+JetBrains Mono. Tout respecte la préférence système **« mouvement réduit »**
+(`prefers-reduced-motion`) pour l'accessibilité.
 
 ---
 

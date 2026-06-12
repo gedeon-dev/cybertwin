@@ -89,7 +89,7 @@ const rows = computed(() =>
       <div class="muted mono">{{ rows.length }} vulnérabilité(s)</div>
     </div>
 
-    <div class="panel" v-if="rows.length">
+    <div class="panel" v-if="rows.length" v-reveal>
       <table>
         <thead>
           <tr>
