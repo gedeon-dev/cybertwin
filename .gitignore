@@ -1,0 +1,11 @@
+# Dépendances
+node_modules/
+
+# Build
+dist/
+*.log
+
+# Environnement
+.env
+.DS_Store
+.vscode/

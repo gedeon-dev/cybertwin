@@ -1,0 +1,22 @@
+{
+  "name": "cybertwin-frontend",
+  "version": "1.0.0",
+  "description": "Interface Vue.js du simulateur de risque cyber CyberTwin (JQGM-Solutions)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.3",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.2.11"
+  }
+}
