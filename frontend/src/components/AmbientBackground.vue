@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from "vue";
+import { onMounted, onBeforeUnmount, ref, watch } from "vue";
+import { useThemeStore } from "../stores/theme";
 
 /**
  * Fond ambiant animé : un réseau de nœuds qui dérivent lentement et se relient
@@ -10,16 +11,34 @@ import { onMounted, onBeforeUnmount, ref } from "vue";
  * respectueux de la préférence « mouvement réduit ».
  */
 
+const theme = useThemeStore();
 const canvas = ref(null);
 let ctx, raf, nodes = [];
 let w = 0, h = 0, dpr = 1;
 const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
 
-const COLORS = {
-  base: "rgba(120, 150, 220, ",
-  line: "rgba(91, 140, 255, ",
-  risk: "rgba(255, 107, 125, ",
-};
+// La palette s'adapte au thème (couleurs plus soutenues sur fond clair).
+const COLORS = { base: "", line: "", risk: "" };
+function applyPalette() {
+  if (theme.mode === "light") {
+    COLORS.base = "rgba(70, 95, 160, ";
+    COLORS.line = "rgba(59, 111, 232, ";
+    COLORS.risk = "rgba(224, 59, 86, ";
+  } else {
+    COLORS.base = "rgba(120, 150, 220, ";
+    COLORS.line = "rgba(91, 140, 255, ";
+    COLORS.risk = "rgba(255, 107, 125, ";
+  }
+}
+applyPalette();
+watch(() => theme.mode, () => {
+  applyPalette();
+  // En mode « mouvement réduit », la boucle ne tourne pas : on redessine une fois.
+  if (ctx && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    frame(0);
+    cancelAnimationFrame(raf);
+  }
+});
 
 function resize() {
   const c = canvas.value;

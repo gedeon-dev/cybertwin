@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useThemeStore } from "../stores/theme";
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -15,8 +16,13 @@ const props = defineProps({
   data: { type: Array, required: true },
 });
 
+const theme = useThemeStore();
 const canvas = ref(null);
 let chart = null;
+
+// Lit une variable CSS du thème courant (couleurs de texte, fond, bordures).
+const cssVar = (name) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 // Palette dérivée de l'accent : variations froides cohérentes avec le thème.
 const PALETTE = [
@@ -31,6 +37,8 @@ const PALETTE = [
 function render() {
   if (!canvas.value) return;
   if (chart) chart.destroy();
+  const textMuted = cssVar("--text-muted") || "#8a97b3";
+  const panelBg = cssVar("--bg-2") || "#0e1428";
   chart = new Chart(canvas.value, {
     type: "doughnut",
     data: {
@@ -39,7 +47,7 @@ function render() {
         {
           data: props.data,
           backgroundColor: PALETTE,
-          borderColor: "#0e1428",
+          borderColor: panelBg,
           borderWidth: 3,
           hoverOffset: 6,
         },
@@ -53,17 +61,19 @@ function render() {
         legend: {
           position: "right",
           labels: {
-            color: "#8a97b3",
+            color: textMuted,
             font: { family: "Inter", size: 12 },
             boxWidth: 12,
             padding: 12,
           },
         },
         tooltip: {
-          backgroundColor: "#1b2440",
-          borderColor: "#25304d",
+          backgroundColor: cssVar("--bg-3") || "#1b2440",
+          titleColor: cssVar("--text") || "#fff",
+          bodyColor: textMuted,
+          borderColor: cssVar("--border") || "#25304d",
           borderWidth: 1,
-          titleFont: { family: "Space Grotesk" },
+          titleFont: { family: "Inter Tight" },
           bodyFont: { family: "JetBrains Mono" },
         },
       },
@@ -73,6 +83,7 @@ function render() {
 
 onMounted(render);
 watch(() => [props.labels, props.data], render, { deep: true });
+watch(() => theme.mode, render);
 onBeforeUnmount(() => chart && chart.destroy());
 </script>
 

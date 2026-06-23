@@ -23,7 +23,7 @@ const emit = defineEmits(["close"]);
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 8, 18, 0.7);
+  background: var(--overlay);
   backdrop-filter: blur(3px);
   display: grid;
   place-items: center;

@@ -12,6 +12,20 @@
     />
   </head>
   <body>
+    <script>
+      // Applique le thème avant le rendu pour éviter tout flash de couleur.
+      (function () {
+        try {
+          var s = localStorage.getItem("cybertwin-theme");
+          var sys = window.matchMedia("(prefers-color-scheme: light)").matches
+            ? "light"
+            : "dark";
+          document.documentElement.setAttribute("data-theme", s || sys);
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

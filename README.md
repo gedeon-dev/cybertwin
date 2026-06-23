@@ -156,7 +156,8 @@ Exportable en **PDF** via l'impression du navigateur.
 ### Fonctionnalités supplémentaires (bonus)
 - **Export PDF** du rapport
 - **Historique des analyses** (conservé dans le store Pinia `risk`)
-- **Dark mode** natif (thème premium sombre)
+- **Mode clair / sombre** avec bascule manuelle (soleil/lune), choix mémorisé
+  et préférence système respectée par défaut
 - **Notifications** (toasts) sur chaque action
 
 ### Direction artistique & expérience

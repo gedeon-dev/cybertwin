@@ -62,7 +62,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
   <div class="gauge" :style="{ width: size + 'px', height: size + 'px' }">
     <svg viewBox="0 0 200 200" :width="size" :height="size">
       <g transform="rotate(135 100 100)">
-        <circle cx="100" cy="100" :r="RADIUS" fill="none" stroke="rgba(255,255,255,0.08)"
+        <circle cx="100" cy="100" :r="RADIUS" fill="none" class="track"
           stroke-width="13" stroke-linecap="round" :stroke-dasharray="`${ARC_LEN} ${CIRC}`" />
         <circle cx="100" cy="100" :r="RADIUS" fill="none" :stroke="color"
           stroke-width="13" stroke-linecap="round" :stroke-dasharray="dashArray"
@@ -82,6 +82,7 @@ onBeforeUnmount(() => cancelAnimationFrame(raf));
 
 <style scoped>
 .gauge { position: relative; display: grid; place-items: center; }
+.track { stroke: var(--track); }
 .value-arc { transition: stroke-dasharray 1s var(--ease); }
 
 .readout {

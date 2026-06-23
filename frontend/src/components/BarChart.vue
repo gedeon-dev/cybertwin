@@ -8,6 +8,7 @@ import {
   LinearScale,
   Tooltip,
 } from "chart.js";
+import { useThemeStore } from "../stores/theme";
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip);
 
@@ -17,12 +18,19 @@ const props = defineProps({
   colors: { type: Array, default: () => ["#34d399", "#fbbf24", "#f87171"] },
 });
 
+const theme = useThemeStore();
 const canvas = ref(null);
 let chart = null;
+
+const cssVar = (name) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 function render() {
   if (!canvas.value) return;
   if (chart) chart.destroy();
+  const tickColor = cssVar("--text-muted") || "#8a97b3";
+  const faint = cssVar("--text-faint") || "#5d6a86";
+  const grid = cssVar("--border-soft") || "#1d273f";
   chart = new Chart(canvas.value, {
     type: "bar",
     data: {
@@ -42,8 +50,10 @@ function render() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "#1b2440",
-          borderColor: "#25304d",
+          backgroundColor: cssVar("--bg-3") || "#1b2440",
+          titleColor: cssVar("--text") || "#fff",
+          bodyColor: tickColor,
+          borderColor: cssVar("--border") || "#25304d",
           borderWidth: 1,
           bodyFont: { family: "JetBrains Mono" },
         },
@@ -51,12 +61,12 @@ function render() {
       scales: {
         x: {
           grid: { display: false },
-          ticks: { color: "#8a97b3", font: { family: "Inter", size: 12 } },
+          ticks: { color: tickColor, font: { family: "Inter", size: 12 } },
         },
         y: {
           beginAtZero: true,
-          ticks: { color: "#5d6a86", stepSize: 1, font: { family: "JetBrains Mono" } },
-          grid: { color: "#1d273f" },
+          ticks: { color: faint, stepSize: 1, font: { family: "JetBrains Mono" } },
+          grid: { color: grid },
         },
       },
     },
@@ -65,6 +75,7 @@ function render() {
 
 onMounted(render);
 watch(() => [props.labels, props.data], render, { deep: true });
+watch(() => theme.mode, render);
 onBeforeUnmount(() => chart && chart.destroy());
 </script>
 

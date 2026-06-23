@@ -1,8 +1,10 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from "vue";
 import { useCompanyStore } from "../stores/company";
+import { useThemeStore } from "../stores/theme";
 
 const company = useCompanyStore();
+const theme = useThemeStore();
 const companyName = computed(() => company.company?.nom ?? "—");
 
 const scrolled = ref(false);
@@ -54,6 +56,24 @@ onBeforeUnmount(() => window.removeEventListener("scroll", onScroll));
           {{ link.label }}
         </RouterLink>
       </nav>
+
+      <button
+        class="theme-toggle"
+        @click="theme.toggle()"
+        :aria-label="theme.isDark ? 'Passer en mode clair' : 'Passer en mode sombre'"
+        :title="theme.isDark ? 'Mode clair' : 'Mode sombre'"
+      >
+        <svg v-if="theme.isDark" viewBox="0 0 24 24" width="18" height="18" class="ico-sun">
+          <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7" />
+          <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19" />
+          </g>
+        </svg>
+        <svg v-else viewBox="0 0 24 24" width="18" height="18" class="ico-moon">
+          <path d="M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5z" fill="none"
+            stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
+        </svg>
+      </button>
 
       <button class="burger" @click="mobileOpen = !mobileOpen" aria-label="Menu">
         <span :class="{ x: mobileOpen }" />
@@ -121,6 +141,21 @@ onBeforeUnmount(() => window.removeEventListener("scroll", onScroll));
 }
 
 .burger { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+
+.theme-toggle {
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--glass-strong);
+  color: var(--text);
+  cursor: pointer; flex-shrink: 0;
+  transition: transform 0.4s var(--ease), border-color 0.3s, background 0.3s, color 0.3s;
+  backdrop-filter: blur(10px);
+}
+.theme-toggle:hover { transform: translateY(-2px) rotate(-8deg); border-color: var(--border-strong); color: var(--accent-2); }
+.ico-sun, .ico-moon { animation: tg 0.4s var(--ease); }
+@keyframes tg { from { opacity: 0; transform: rotate(-90deg) scale(0.6); } to { opacity: 1; transform: none; } }
 .burger span, .burger span::before, .burger span::after {
   content: ""; display: block; width: 22px; height: 2px;
   background: var(--text); border-radius: 2px; transition: 0.3s var(--ease);
@@ -132,7 +167,8 @@ onBeforeUnmount(() => window.removeEventListener("scroll", onScroll));
 .burger span.x::after { transform: rotate(-45deg) translateY(-1px); }
 
 @media (max-width: 820px) {
-  .burger { display: block; margin-left: auto; }
+  .burger { display: block; }
+  .theme-toggle { margin-left: auto; }
   .links {
     position: absolute;
     top: 100%; left: 0; right: 0;

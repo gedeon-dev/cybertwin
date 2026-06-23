@@ -3,16 +3,19 @@ import { onMounted } from "vue";
 import AppNav from "./components/AppNav.vue";
 import ToastHost from "./components/ToastHost.vue";
 import AmbientBackground from "./components/AmbientBackground.vue";
+import { useThemeStore } from "./stores/theme";
 import { useCompanyStore } from "./stores/company";
 import { useAssetsStore } from "./stores/assets";
 import { useVulnerabilitiesStore } from "./stores/vulnerabilities";
 
 // Au démarrage, on hydrate les stores depuis l'API.
+const theme = useThemeStore();
 const company = useCompanyStore();
 const assets = useAssetsStore();
 const vulns = useVulnerabilitiesStore();
 
 onMounted(() => {
+  theme.init();
   company.fetch();
   assets.fetch();
   vulns.fetch();
