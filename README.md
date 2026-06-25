@@ -1,5 +1,5 @@
 # CyberTwin — Simulateur de Risque Cyber pour PME
-
+>Julien QUINT Gédéon MITOUMONA
 > Projet binôme · Développement Fullstack avec **Vue.js** et **Node.js**
 > Entreprise fictive analysée : **JQGM-Solutions**
 
@@ -236,4 +236,4 @@ débogage, rapport et préparation de la soutenance.
 
 ---
 
-*Projet réalisé dans le cadre du module Développement Fullstack Vue.js / Node.js.*
+*Projet réalisé dans le cadre du module Développement web.*
